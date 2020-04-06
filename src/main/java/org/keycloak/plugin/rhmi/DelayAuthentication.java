@@ -1,4 +1,4 @@
-package authenticator;
+package org.keycloak.plugin.rhmi;
 
 import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.Authenticator;

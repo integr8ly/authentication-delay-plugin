@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
+<<<<<<< HEAD
   <installed facet="java" version="1.8"/>
   <installed facet="jst.web" version="4.0"/>
+=======
+  <fixed facet="wst.jsdt.web"/>
+  <installed facet="java" version="1.5"/>
+  <installed facet="jst.web" version="2.3"/>
+>>>>>>> add maven web project structure
   <installed facet="wst.jsdt.web" version="1.0"/>
 </faceted-project>

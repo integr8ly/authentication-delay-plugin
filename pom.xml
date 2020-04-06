@@ -3,10 +3,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.keycloak.plugin.rhmi</groupId>
   <artifactId>authdelay</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>authdelay Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+    <packaging>jar</packaging>
+      <version>0.0.1-SNAPSHOT</version>
+        <name>authdelay Maven Webapp</name>
+      
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -40,5 +40,17 @@
   </dependencies>
   <build>
     <finalName>authdelay</finalName>
+       <plugins>
+<plugin>
+    <artifactId>maven-war-plugin</artifactId>
+    <version>2.4</version>
+    <configuration>
+        <failOnMissingWebXml>false</failOnMissingWebXml>    
+    </configuration>
+</plugin>
+    </plugins>
+    
+
   </build>
+
 </project>

@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  keycloak:
+    image: 'jboss/keycloak'
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_USER=admin-test
+      - KEYCLOAK_PASSWORD=admin-test
+      - JDBC_PARAMS='connectTimeout=30'
+      - DB_VENDOR=mariadb
+      - DB_ADDR=mariadb
+      - DB_DATABASE=keycloak
+      - DB_USER=keycloak
+      - DB_PASSWORD=password
+      - JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING
+      - JGROUPS_DISCOVERY_PROPERTIES=datasource_jndi_name=java:jboss/datasources/KeycloakDS,info_writer_sleep_time=500
+    volumes:
+      - ./plugins:/opt/jboss/keycloak/providers
+    depends_on:
+        - mariadb
+  mariadb:
+      image: mariadb
+      volumes:
+        - data:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root
+        MYSQL_DATABASE: keycloak
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: password
+      # Copy-pasted from https://github.com/docker-library/mariadb/issues/94
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "--silent"]
+volumes:
+  data:
+    driver: local

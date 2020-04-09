@@ -85,7 +85,7 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
 		if (isUserCreated(context.getUser())) {
 			redirectToAfterFirstBrokerLoginSuccess(context, brokerContext);
 		} else {
-			redirectToAction(context);
+			showAccountProvisioningPage(context);
 		}		
 	}
 
@@ -106,11 +106,11 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
         if (isUserCreated(context.getUser())) {
         	redirectToAfterFirstBrokerLoginSuccess(context, brokerContext);
 		} else {
-			redirectToAction(context);
+			showAccountProvisioningPage(context);
 		}
 	}
 	
-	private void redirectToAction(AuthenticationFlowContext context) {
+	private void showAccountProvisioningPage(AuthenticationFlowContext context) {
 		String accessCode = context.generateAccessCode();
 		URI action = context.getActionUrl(accessCode);
 		String templatedHTML = getTemplateHTML(action);

@@ -26,8 +26,8 @@ import org.keycloak.utils.MediaType;
 
 public class DelayAuthentication extends AbstractIdpAuthenticator implements Authenticator {
 
-	private final String USER_CREATED_ATTRIBUTE = "3scale_user_created";
-	private final String USER_CREATED_VALUE = "true";
+	private static final String USER_CREATED_ATTRIBUTE = "3scale_user_created";
+	private static final String USER_CREATED_VALUE = "true";
 	private static final Logger logger = Logger.getLogger(DelayAuthentication.class);
 
 	
@@ -35,7 +35,7 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
 	}
 	
 	/**
-	 * checks whether user has been created in other products
+	 * checks whether user has been created in keycloak and received creation attribute
 	 * and received the created attribute set to true 
 	 * @param user
 	 * @return
@@ -43,18 +43,21 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
 	private boolean isUserCreated(UserModel user) {
 
 		if (user == null) {
-			logger.info("user model is null");
+			logger.debug("User is null");
 			return false;
 		}
 
-		String userCreatedAtt = user.getFirstAttribute(this.USER_CREATED_ATTRIBUTE);
+		String userCreatedAtt = user.getFirstAttribute(DelayAuthentication.USER_CREATED_ATTRIBUTE);
 		if (userCreatedAtt == null) {
-			logger.info("user created attribute is null");
+			logger.debugf("User is created but %s attribute in keycloak is null", DelayAuthentication.USER_CREATED_ATTRIBUTE);
 			return false;
 		}
 		
-		if (!userCreatedAtt.equals(this.USER_CREATED_VALUE)) {
-			logger.infof("user created attribute value is different than %s", this.USER_CREATED_VALUE);
+		if (!userCreatedAtt.equals(DelayAuthentication.USER_CREATED_VALUE)) {
+			logger.debugf("%s attribute value in keycloak is not equals to %s", 
+					DelayAuthentication.USER_CREATED_ATTRIBUTE, 
+					DelayAuthentication.USER_CREATED_VALUE
+			);
 			return false;
 		}
 		

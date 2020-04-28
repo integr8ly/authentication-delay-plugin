@@ -47,14 +47,14 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
 			return false;
 		}
 
-		String userCreatedAtt = user.getFirstAttribute(DelayAuthentication.USER_CREATED_ATTRIBUTE);
-		if (userCreatedAtt == null) {
+		List<String> listOfAttributeValue = user.getAttribute(DelayAuthentication.USER_CREATED_ATTRIBUTE);
+		if (listOfAttributeValue.isEmpty()) {
 			logger.debugf("User is created but %s attribute in keycloak is null", DelayAuthentication.USER_CREATED_ATTRIBUTE);
 			return false;
 		}
 		
-		if (!userCreatedAtt.equals(DelayAuthentication.USER_CREATED_VALUE)) {
-			logger.debugf("%s attribute value in keycloak is not equals to %s", 
+		if (!listOfAttributeValue.contains(DelayAuthentication.USER_CREATED_VALUE)) {
+			logger.debugf("%s attribute value in keycloak does not contain %s", 
 					DelayAuthentication.USER_CREATED_ATTRIBUTE, 
 					DelayAuthentication.USER_CREATED_VALUE
 			);

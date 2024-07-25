@@ -1,24 +1,24 @@
-version: '3.7'
 services:
   keycloak:
-    image: 'jboss/keycloak'
+    image: 'quay.io/keycloak/keycloak:24.0'
     ports:
-      - "8080:8080"
+      - "8180:8080"
     environment:
-      - KEYCLOAK_USER=admin-test
-      - KEYCLOAK_PASSWORD=admin-test
-      - JDBC_PARAMS='connectTimeout=30'
-      - DB_VENDOR=mariadb
-      - DB_ADDR=mariadb
-      - DB_DATABASE=keycloak
-      - DB_USER=keycloak
-      - DB_PASSWORD=password
-      - JGROUPS_DISCOVERY_PROTOCOL=JDBC_PING
-      - JGROUPS_DISCOVERY_PROPERTIES=datasource_jndi_name=java:jboss/datasources/KeycloakDS,info_writer_sleep_time=500
+      - TZ=Europe/Madrid
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=mariadb
+      - KC_DB_URL=jdbc:mariadb://mariadb:3306/keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=password
+      - KC_FEATURES=preview
     volumes:
-      - ./plugins:/opt/jboss/keycloak/providers
+      - ./kc_data:/opt/keycloak/data
+      - ./plugins/authdelay.jar:/opt/keycloak/providers/authdelay.jar
     depends_on:
         - mariadb
+    command:
+      - start-dev
   mariadb:
       image: mariadb
       volumes:
@@ -28,7 +28,6 @@ services:
         MYSQL_DATABASE: keycloak
         MYSQL_USER: keycloak
         MYSQL_PASSWORD: password
-      # Copy-pasted from https://github.com/docker-library/mariadb/issues/94
       healthcheck:
         test: ["CMD", "mysqladmin", "ping", "--silent"]
 volumes:

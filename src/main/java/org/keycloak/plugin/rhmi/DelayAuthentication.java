@@ -21,7 +21,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.keycloak.utils.MediaType;
 
 public class DelayAuthentication extends AbstractIdpAuthenticator implements Authenticator {
@@ -47,7 +47,7 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
 			return false;
 		}
 
-		List<String> listOfAttributeValue = user.getAttribute(DelayAuthentication.USER_CREATED_ATTRIBUTE);
+		List<String> listOfAttributeValue = user.getAttributes().get(DelayAuthentication.USER_CREATED_ATTRIBUTE);
 		if (listOfAttributeValue.isEmpty()) {
 			logger.debugf("User is created but %s attribute in keycloak is null", DelayAuthentication.USER_CREATED_ATTRIBUTE);
 			return false;
@@ -100,7 +100,7 @@ public class DelayAuthentication extends AbstractIdpAuthenticator implements Aut
  
         RealmModel realm = context.getRealm();
         
-        UserModel federatedUser = session.users().getUserByFederatedIdentity(federatedIdentityModel, realm);
+        UserModel federatedUser = session.users().getUserByFederatedIdentity(realm, federatedIdentityModel);
         context.setUser(federatedUser);
 
         if (isUserCreated(context.getUser())) {

@@ -4,9 +4,9 @@ Plugin to delay authentication of users until they get created in Keycloak and a
 
 # System Requirements
 
-You need to have Keycloak 9.0.2 running.
+You need to have Keycloak 24.0+ running.
 
-All you need to build this project is Java 8.0 (Java SDK 1.8) or later and Maven 3.1.1 or later.
+All you need to build this project is Java 17 (Java SDK 17) or later and Maven 3.9 or later.
 
 # Build and Deploy
 
@@ -30,11 +30,11 @@ Steps to install Keycloak locally:
 
 1) Open the terminal and navigate to the root of the project.
 2) Run ```docker-compose up```.
-3) When keycloak finishes the install open http://0.0.0.0:8080/ in a browser and it you should be able to see keycloak login screen.
-4) Admin credentials for Keycloak are set in the docker-compose.yaml file `KEYCLOAK_USER=admin-test` and `KEYCLOAK_PASSWORD=admin-test`.
+3) When keycloak finishes the install open http://0.0.0.0:8180/ in a browser and it you should be able to see keycloak login screen.
+4) Admin credentials for Keycloak are set in the docker-compose.yaml file `KEYCLOAK_USER=admin` and `KEYCLOAK_PASSWORD=admin`.
 
 ### Deploy the plugin 
 
-To deploy the plugin you need to copy the `.jar` file to `/opt/jboss/keycloak/providers` in Keycloak.
+To deploy the plugin you need to copy the `.jar` file to `/opt/keycloak/providers/` in Keycloak.
 
 PS.: this directory is mapped in the docker-compose.yaml file available in the repo. 
